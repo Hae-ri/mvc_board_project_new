@@ -10,10 +10,10 @@
 <body>
 	<h2>자유게시판</h2>
 	<hr>
-	<table width="500" cellpadding="0" cellspacing="0" border="1">
+	<table width="800" cellpadding="0" cellspacing="0" border="1">
 		<tr>
 			<td>번호</td>
-			<td>제목</td>
+			<td width="400">제목</td>
 			<td>글쓴이</td>
 			<td>게시일</td>
 			<td>조회수</td>

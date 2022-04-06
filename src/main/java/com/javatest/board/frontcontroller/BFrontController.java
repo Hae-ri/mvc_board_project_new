@@ -48,7 +48,7 @@ public class BFrontController extends HttpServlet {
 		String viewPage = null;
 		BCommand command = null;
 		
-		String uri = request.getRequestURI(); // 전체 주소 (http://localhost:8888/mvc_board_project/write.do)
+		String uri = request.getRequestURI(); // 전체 주소 (http://localhost:8888/mvc_board_project_new/write.do)
 		String conPath = request.getContextPath(); // context 주소 (http://localhost:8888/mvc_board_project)
 		String com = uri.substring(conPath.length()); // 실제 이동될 주소(/*.do) = 전체 주소 - context 주소
 		
@@ -67,25 +67,24 @@ public class BFrontController extends HttpServlet {
 			command = new BContentCommand(); 
 			command.excute(request, response);
 			viewPage = "content_view.jsp";
-		}
-		else if(com.equals("/modify.do")) {
+		} else if(com.equals("/modify.do")) {
 			command = new BModifyCommand(); 
 			command.excute(request, response);
 			viewPage = "list.do";
-		}
-		else if(com.equals("/delete.do")) {
+		} else if(com.equals("/delete.do")) {
 			command = new BdeleteCommand(); 
 			command.excute(request, response);
 			viewPage = "list.do";
-		}else if(com.equals("/reply_view.do")) {
+		} else if(com.equals("/reply_view.do")) {
 			command = new BReplyViewCommand(); 
 			command.excute(request, response);
 			viewPage = "reply_view.jsp";
+		} else if(com.equals("/reply.do")) {
+			command = new BReplyCommand(); 
+			command.excute(request, response);
+			viewPage = "list.do";
 		}
-		
-		
-		
-		
+				
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 		// 기존 request 객체를 인수로 넣어서 forward하므로 기존 request 객체의 내용을 사용할 수 있음

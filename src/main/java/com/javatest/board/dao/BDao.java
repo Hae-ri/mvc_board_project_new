@@ -275,4 +275,71 @@ public class BDao {
 		}
 		return dto;
 	}
+	
+	public void reply(String bid, String bname, String btitle, String bcontent, String bgroup, String bstep, String bindent) {
+		
+		replyShape(bgroup,bstep);
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = datasource.getConnection();
+			String query = "insert into mvc_board (bid, bname, btitle, bcontent, bgroup, bstep, bindent) values (mvc_board_seq.nextval,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bname);
+			pstmt.setString(2, btitle);
+			pstmt.setString(3, bcontent);
+			pstmt.setInt(4, Integer.parseInt(bgroup)); // 답글을 단 글의  bid
+			pstmt.setInt(5, Integer.parseInt(bstep)+1); // 답글을 단 글의  bstep+1
+			pstmt.setInt(6, Integer.parseInt(bindent)+1); // 답글을 단 글의  bindent+1
+			int ret = pstmt.executeUpdate(); // 데이터 삽입이 성공하면 1 반환
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				}
+			}
+		
+		}
+	
+	public void replyShape(String strGroup, String strStep) {
+	
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = datasource.getConnection();
+			String query = "update mvc_board set bstep = bstep + 1 where bgroup =? and bstep > ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(strGroup)); // 답글을 단 글의  bid
+			pstmt.setInt(2, Integer.parseInt(strStep)); // 답글을 단 글의  bstep+1
+
+			int ret = pstmt.executeUpdate(); // 데이터 삽입이 성공하면 1 반환
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				}
+			}
+		
+	}
 }
